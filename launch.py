@@ -1,5 +1,6 @@
 import os
 import sys
+import platform
 
 
 def get_launch_conf_no_http(ip, port, user, type1, lip, lp, rp, proxyname):
@@ -154,4 +155,7 @@ dns_server = 114.114.114.114
 
 
 def launchfrp():
-    os.system("frpc.exe -c frpc.ini")
+    if platform.system().lower() == 'windows':
+        os.system("frpc.exe -c frpc.ini")
+    else:
+        os.system("frpc -c frpc.ini")
