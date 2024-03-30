@@ -9,7 +9,7 @@ python -m venv venv/ # 创建虚拟环境
 pip install -r requirements.txt
 python main.py
 ```
-## 使用nuitka构建:
+## 使用 nuitka 构建（快速构建来自lib_not_dr）:
 ```bash
 lndl_nuitka . -y
 ```
