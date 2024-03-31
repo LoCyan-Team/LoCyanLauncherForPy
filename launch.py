@@ -155,7 +155,7 @@ dns_server = 114.114.114.114
 
 
 def launchfrp():
-    if platform.system().lower() == 'windows':
+    if platform.system().lower() == "windows":
         os.system("frpc.exe -c frpc.ini")
     else:
-        os.system("frpc -c frpc.ini")
+        os.system("./frpc -c frpc.ini")
