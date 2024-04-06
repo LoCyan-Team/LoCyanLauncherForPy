@@ -1,0 +1,44 @@
+name: "BUG 反馈"
+description: "Bug反馈模板"
+title: "BUG | (在这里给Issue命名)"
+labels: [· 程序Bug]
+body:
+
+- type: textarea
+  id: system_report
+  attributes:
+    label: "LocyanPyLauncher 版本"
+    description: "一般来说，版本会在启动的时候显示版本号。"
+  validations:
+    required: true
+
+- type: textarea
+  id: issue_description
+  attributes:
+    label: "说明"
+    description: "说明你的问题、麻烦、建议等。"
+  validations:
+    required: true
+
+- type: textarea
+  id: reproduction_steps
+  attributes:
+    label: "如何复现这个bug？"
+    placeholder: "你可以使用文字回答，或者使用图片/视频回答。"
+  validations:
+    required: true
+
+- type: textarea
+  id: attachment_description
+  attributes:
+    label: "附件(可选)"
+    placeholder: "先点击这个文本框，然后再将文件直接拖拽到文本框中以上传。"
+
+- type: checkboxes
+  id: check
+  attributes:
+    label: "确认"
+    description: "请翻阅[Issues](https://github.com/LoCyan-Team/LoCyanFrpPyLauncher/issues)中是否有与你的Issue重复的项。"
+    options:
+      - label: "我确保我的Issue没有和别人的重复"
+        required: true
