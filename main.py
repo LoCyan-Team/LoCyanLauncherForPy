@@ -1,4 +1,3 @@
-import requests
 import urllib3
 
 from launch import *
@@ -18,22 +17,21 @@ class Main:
         self.r.keep_alive = False
         # 设置重连次数为5
         self.r.DEFAULT_RETRIES = 5
-        # 关闭urllib3 不验证SSL产生的报错
+        # 关闭urllib3不验证SSL产生的报错
         urllib3.disable_warnings()
 
         # 检查更新
-        version = "V1.0.0.23 Fix11"
+        version = "version_1.0.0.24"
 
-        url = "https://api.locyanfrp.cn/App/update?pyversion=" + version
+        check_update = f"https://api.ymbit.cn/public/check_update/{version}.html"
 
-        response = self.r.get(url)
-        rs = response.json()
-
-        if rs["needupdate"] == 1:
-            print("恭喜！您使用的是最新版本！" + version)
+        if check_update.status_code == 200:
+            pass
+        elif check_update.status_code == 404:
+            print("目前LoCyanPyLauncher非最新版本，请前往GitHub更新。")
         else:
-            version_new = rs["version"]
-            print("版本更新可用！当前版本：" + version + " | 最新版本：" + version_new)
+            print("检查更新失败，请检查网络连接。")
+            sys.exit(1)
 
         print("欢迎使用LoCyan Frp Application")
         result = self.r.get("https://api.locyanfrp.cn/App", verify=False)
@@ -44,7 +42,9 @@ class Main:
         print(contents)
         print("------------------------------------------------")
 
-    def get_user_info(self, node: str, code: str):  # 使用FrpPanel自带的API进行鉴权，判断用户是否有权限使用
+    def get_user_info(
+        self, node: str, code: str
+    ):  # 使用FrpPanel自带的API进行鉴权，判断用户是否有权限使用
         result = self.r.get(
             self.url
             + "?apitoken=LoCyanToken|"
@@ -134,36 +134,36 @@ class Main:
         rs = self.r.get(url, verify=False).json()
         # type1, lip, lp, rp, proxyname, cd
         # rs["proxies"]是列表
-        for i in rs["proxies"]:
-            # i[3]:type i[4]:lip i[5]:lp i[11] rp i[8]:自定义域名(cd)
+        for type in rs["proxies"]:
+            # type[3]:type[4]:lip type[5]:lp type[11] rp type[8]:自定义域名(cd)
             if (
                 self.proxy_list_id_type[id1] == "http"
                 or self.proxy_list_id_type[id1] == "https"
             ):
                 return (
-                    str(i["proxy_type"])
+                    str(type["proxy_type"])
                     + "|"
-                    + str(i["local_ip"])
+                    + str(type["local_ip"])
                     + "|"
-                    + str(i["local_port"])
+                    + str(type["local_port"])
                     + "|"
-                    + str(i["remote_port"])
+                    + str(type["remote_port"])
                     + "|"
-                    + str(i["proxy_name"])
+                    + str(type["proxy_name"])
                     + "|"
-                    + i["domain"]
+                    + type["domain"]
                 )
             else:
                 return (
-                    str(i["proxy_type"])
+                    str(type["proxy_type"])
                     + "|"
-                    + str(i["local_ip"])
+                    + str(type["local_ip"])
                     + "|"
-                    + str(i["local_port"])
+                    + str(type["local_port"])
                     + "|"
-                    + str(i["remote_port"])
+                    + str(type["remote_port"])
                     + "|"
-                    + str(i["proxy_name"])
+                    + str(type["proxy_name"])
                 )
 
 
@@ -174,7 +174,11 @@ token_user = ""
 if os.path.exists("cfg.ini"):
     f = open("cfg.ini", "r", encoding="utf-8")
     token_user = f.read()
-    print("已读取到您上次使用的token: ", token_user, "如果想要更换的话请在选择服务器的时候输入ct")
+    print(
+        "已读取到您上次使用的token: ",
+        token_user,
+        "如果想要更换的话请在选择服务器的时候输入ct",
+    )
     f.close()
 
 while True:
@@ -308,5 +312,7 @@ while True:
             break
         break
     else:
-        print("鉴权失败, 请检查您的信息以及你是否有权限使用该服务器, 您可以尝试输入ct更换token秘钥")
+        print(
+            "鉴权失败, 请检查您的信息以及你是否有权限使用该服务器, 您可以尝试输入ct更换token秘钥"
+        )
         continue

@@ -24,5 +24,7 @@ def download_frpc():
                     bar.update(size)
         elif os_name.lower() == 'linux':
             requests.get('https://mirrors.nyanest.xyz/locyan/frpc', stream=True)
+        elif os_name.lower() == 'darwin':
+            requests.get('https://mirrors.nyanest.xyz/locyan/frpc', stream=True)
         else:
             print("暂不支持此架构")
