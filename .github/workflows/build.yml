@@ -33,12 +33,12 @@ jobs:
       - name: Upload Artifacts
         uses: actions/upload-artifact@v3
         with:
-          name: MCSL2-Windows-x64
+          name: LoCyanPyLauncher-Windows
           path: |
             main.exe
 
   Linux:
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-latest
     steps:
 
       - name: Install Tools
