@@ -23,7 +23,8 @@ class Main:
         # 检查更新
         version = "version_1.0.0.24"
 
-        check_update = f"https://api.ymbit.cn/public/check_update/{version}.html"
+        check_update_url = f"https://api.ymbit.cn/public/check_update/{version}.html"
+        check_update = requests.get(check_update_url, verify=False)
 
         if check_update.status_code == 200:
             pass
