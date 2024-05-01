@@ -35,7 +35,7 @@ jobs:
         with:
           name: MCSL2-Windows-x64
           path: |
-            build/MCSL2.dist/**/*
+            main.exe
 
   Linux:
     runs-on: ubuntu-20.04
@@ -64,3 +64,10 @@ jobs:
       - name: Build
         run: |
           python -m lndl_nuitka . -y -- --disable-console
+
+      - name: Upload Artifacts
+        uses: actions/upload-artifact@v3
+        with:
+          name: LoCyanPyLauncher-Linux
+          path: |
+            main.bin
