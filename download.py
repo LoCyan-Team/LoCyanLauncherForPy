@@ -1,3 +1,11 @@
+"""
+TODO:目前因为服务器技术升级，目前这种下载方式是不可行的。只能过几天再改改，且 YanMo API 的海外下载会触发 Cloudflare WAF 的咨询，UA值还得简单修改
+目前能下载的方式：
+GitHub Releases：https://github.com/LoCyan-Team/LoCyanFrpPureApp/releases/
+YanMo API: https://api.ymbit.cn/public/files/locyanfrp/
+LoCyan Cloud Drive: https://download.locyan.cn/locyanfrp/PureFrpc
+"""
+
 import platform
 import requests
 import os
@@ -25,7 +33,7 @@ def download_frpc():
                     size = file.write(data)
                     bar.update(size)
         elif os_name.lower() == "linux":
-            requests.get("https://mirrors.nyanest.xyz/locyan/frpc", stream=True)
+            requests.get("https://api.ymbit.cn/public/files/locyanfrp/", stream=True)
         elif os_name.lower() == "darwin":
             requests.get("https://mirrors.nyanest.xyz/locyan/frpc", stream=True)
         else:
