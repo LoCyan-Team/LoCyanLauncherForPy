@@ -1,6 +1,7 @@
 import urllib3
 import requests
 import download
+import asyncio
 
 from launch import *
 
@@ -21,28 +22,31 @@ class Main:
         # 关闭urllib3不验证SSL产生的报错
         urllib3.disable_warnings()
 
-        # 检查更新
-        version = "version_1.0.1"
+        async def async_init(self):
+            # 检查更新
+            version = "version_1.0.1"
 
-        check_update_url = f"https://api.ymbit.cn/public/check_update/{version}.html"
-        check_update = requests.get(check_update_url, verify=False)
+            check_update_url = (
+                f"https://api.ymbit.cn/public/check_update/{version}.html"
+            )
+            check_update = requests.get(check_update_url, verify=False)
 
-        if check_update.status_code == 200:
-            download.check_file_exists()
-        elif check_update.status_code == 404:
-            print("目前 LoCyanPyLauncher 非最新版本，请前往 GitHub 更新。")
-        else:
-            print("检查更新失败，请检查网络连接。")
-            sys.exit(1)
+            if check_update.status_code == 200:
+                await download.check_frp_exists()
+            elif check_update.status_code == 404:
+                print("目前 LoCyanPyLauncher 非最新版本，请前往 GitHub 更新。")
+            else:
+                print("检查更新失败，请检查网络连接。")
+                sys.exit(1)
 
-        print("欢迎使用LoCyan Frp Application")
-        result = self.r.get("https://api.locyanfrp.cn/App", verify=False)
-        result = result.json()
-        contents = result["contents"]
-        print("------------------------------------------------")
-        print("公告：")
-        print(contents)
-        print("------------------------------------------------")
+            print("欢迎使用LoCyan Frp Application")
+            result = self.r.get("https://api.locyanfrp.cn/App", verify=False)
+            result = result.json()
+            contents = result["contents"]
+            print("------------------------------------------------")
+            print("公告：")
+            print(contents)
+            print("------------------------------------------------")
 
     def get_user_info(
         self, node: str, code: str

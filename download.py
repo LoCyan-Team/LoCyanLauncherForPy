@@ -9,6 +9,7 @@ YanMo API: https://api.ymbit.cn/public/files/locyanfrp/
 
 from tqdm import tqdm
 
+import asyncio
 import io
 import platform
 import aiohttp
@@ -43,7 +44,7 @@ async def download_frp(url, file_name):
                         print(f"文件 {file_name} 下载完成。")
 
 
-def check_file_exists(file_path):
+async def check_file_exists(file_path):
     return os.path.exists(file_path)
 
 
@@ -98,3 +99,9 @@ async def main():
     ]
     file_name = "frp_LoCyanFrp-0.51.3_windows_amd64.zip"
     await download_frp(url_list, file_name)
+    await unzip_file(file_name)
+    await check_frp_exists()
+
+
+if __name__ == "__main__":
+    asyncio.run(main())
