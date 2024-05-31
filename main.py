@@ -1,7 +1,8 @@
 import urllib3
+import requests
+import download
 
 from launch import *
-from download import *
 
 
 # 定义主类
@@ -27,9 +28,9 @@ class Main:
         check_update = requests.get(check_update_url, verify=False)
 
         if check_update.status_code == 200:
-            pass
+            download.check_file_exists()
         elif check_update.status_code == 404:
-            print("目前LoCyanPyLauncher非最新版本，请前往GitHub更新。")
+            print("目前 LoCyanPyLauncher 非最新版本，请前往 GitHub 更新。")
         else:
             print("检查更新失败，请检查网络连接。")
             sys.exit(1)
@@ -261,7 +262,7 @@ while True:
                         )
 
                 print("=========================================")
-                launchfrp()
+                launch_frp()
             else:
                 print("=========================================")
                 print("你可以用这个地址连接你的隧道！")
@@ -309,7 +310,7 @@ while True:
                         proxyname=proxyname,
                     )
 
-                launchfrp()
+                launch_frp()
             break
         break
     else:

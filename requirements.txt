@@ -14,4 +14,7 @@ lib-not-dr[nuitka]==0.4.0
 loguru>=0.7.2
 logger>=1.4.0
 tqdm>=4.66.2
+aiohttp>=3.9.5
+asyncio>=3.4.3
+aiofiles>=0.7.0
 # black==24.1.0
