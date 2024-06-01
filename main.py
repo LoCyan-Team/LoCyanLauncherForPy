@@ -63,7 +63,7 @@ class Main:
         return result.text
 
     def get_server_list(self):  # 获取所有服务器列表
-        url = "https://api.locyanfrp.cn/Proxies/GetServerList"
+        url = "https://api.locyanfrp.cn/api/v2/proxies/getlist"
         rs = self.r.get(url, verify=False).json()
         for i in rs:
             server_id = i["id"]
