@@ -16,11 +16,30 @@ import aiohttp
 import aiofiles
 import zipfile
 import os
+import sys
 
 
 async def download_frp(url, file_name):
+    def detect_desktop_environment():
+        if platform.system() == "Windows":
+            platform.system() + " " + platform.release()
+        elif platform.system() == "Linux":
+            os.environ.get("XDG_CURRENT_DESKTOP")
+        else:
+            confirm_continue = input(
+                "无法获取系统桌面环境，可能会导致未知错误，是否继续？(y/N)"
+            )
+            if confirm_continue == "y":
+                os.environ.get("Unknown")
+            elif confirm_continue == "N":
+                sys.exit(1)
+            else:
+                return detect_desktop_environment()
+
+    system = platform.system()
     headers = {
-        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:127.0) Gecko/20100101 LoCyanFrp/1.0.0.24"
+        "User-Agent": f"Mozilla/5.0 ({detect_desktop_environment}; {system}; x64; rv:127.0) Gecko/20100101 "
+        f"LoCyanFrp/1.0.0.24"
     }
     async with aiohttp.ClientSession() as session:
         async with session.get(url, headers=headers) as response:
@@ -79,7 +98,9 @@ async def main():
             "Drive（官方云盘）（尚未支持）\n4. YanMo API(较为稳定，但是更新不会很快)"
         )
     )
-    download_version = int(input("请输入你想使用的LoCyanFrp版本号"))
+    download_version = int(
+        input("请输入你想使用的LoCyanFrp版本号（直接回车则默认使用最新版本）")
+    )
     if download_version == "":
         download_version = "0.51.3"
     else:
@@ -87,17 +108,34 @@ async def main():
             pass
         else:
             print()
-    url_list = [
-        1,
-        f"https://github.com/LoCyan-Team/LoCyanFrpPureApp/releases/frp_LoCyanFrp-{download_version}_{operating_system}_{platform_type}.tar.gz",
-        2,
-        f"https://objects.ymbit.cn/locyanfrp/frp_LoCyanFrp-{download_version}_{operating_system}_{platform_type}.tar.gz",
-        3,
-        f"",
-        4,
-        f"https://api.ymbit.cn/public/locyanfrp/frp_LoCyanFrp-{download_version}_{operating_system}_{platform_type}.tar.gz",
-    ]
-    file_name = "frp_LoCyanFrp-0.51.3_windows_amd64.zip"
+    if platform.system() == "Windows":
+        url_list = [
+            1,
+            f"https://github.com/LoCyan-Team/LoCyanFrpPureApp/releases/frp_LoCyanFrp-{download_version}_{operating_system}_{platform_type}.zip",
+            2,
+            f"https://objects.ymbit.cn/locyanfrp/frp_LoCyanFrp-{download_version}_{operating_system}_{platform_type}.zip",
+            3,
+            f"",
+            4,
+            f"https://api.ymbit.cn/public/locyanfrp/frp_LoCyanFrp-{download_version}_{operating_system}_{platform_type}.zip",
+        ]
+    else:
+        url_list = [
+            1,
+            f"https://github.com/LoCyan-Team/LoCyanFrpPureApp/releases/frp_LoCyanFrp-{download_version}_{operating_system}_{platform_type}.tar.gz",
+            2,
+            f"https://objects.ymbit.cn/locyanfrp/frp_LoCyanFrp-{download_version}_{operating_system}_{platform_type}.tar.gz",
+            3,
+            f"",
+            4,
+            f"https://api.ymbit.cn/public/locyanfrp/frp_LoCyanFrp-{download_version}_{operating_system}_{platform_type}.tar.gz",
+        ]
+    if platform.system() == "Windows":
+        file_name = (
+            f"frp_LoCyanFrp-{download_version}_{operating_system}_{platform_type}.zip"
+        )
+    else:
+        file_name = f"frp_LoCyanFrp-{download_version}_{operating_system}_{platform_type}.tar.gz"
     await download_frp(url_list, file_name)
     await unzip_file(file_name)
     await check_frp_exists()
