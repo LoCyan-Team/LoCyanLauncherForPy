@@ -3,7 +3,7 @@ TODO: LoCyan Cloud Drive 下载支持
 目前能下载的方式：
 GitHub Releases：https://github.com/LoCyan-Team/LoCyanFrpPureApp/releases/
 YanMo Object: https://objects.ymbit.cn/locyanfrp/
-LoCyan Cloud Drive: https://download.locyan.cn/locyanfrp/PureFrpc 傻逼DYC你自己去支持去
+LoCyan Cloud Drive: https://alist.locyan.cn/d/locyanfrp/PureFrpc/
 YanMo API: https://api.ymbit.cn/public/files/locyanfrp/
 """
 
